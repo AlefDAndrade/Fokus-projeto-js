@@ -26,8 +26,8 @@ musicainout.addEventListener('change', () => {
 })
 
 
-let tempoReset = 1500;
-let tempoDecorrido = 1500;
+let tempoReset = 10;
+let tempoDecorrido = 10;
 let intervaloId = null;
 
 
@@ -57,8 +57,8 @@ function alterarContexto(contexto) {
         case "foco":
             msg.innerHTML = `Otimize sua produtividade,<br>
             <strong class="app__title-strong">mergulhe no que importa.</strong>`
-                tempoDecorrido = 1500;
-                tempoReset = 1500;
+                tempoDecorrido = 10;
+                tempoReset = 10;
     
             break;
         case "descanso-curto":
@@ -86,6 +86,11 @@ function alterarContexto(contexto) {
 let contagemR = function () {
     if (tempoDecorrido <= 0) {
         timerOverEffect.play();
+        const focoAtivo = html.getAttribute('data-contexto') == 'foco';
+        if(focoAtivo){
+            const elemento = new CustomEvent('focoFinalizado');
+            document.dispatchEvent(elemento);
+        }
         alert('timer over')
         tempoDecorrido = tempoReset;
         zerar();
