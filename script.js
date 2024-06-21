@@ -1,3 +1,5 @@
+import { permisorPlay } from "./script-crud.js";
+
 const html = document.querySelector('html');
 const relogio = document.querySelector('#timer');
 const img = document.querySelector('.app__image');
@@ -16,6 +18,7 @@ const pauseEffect = new Audio('/sons/pause.mp3');
 const timerOverEffect = new Audio('/sons/beep.mp3');
 
 musica.loop = true;
+let playLiberado = null;
 
 musicainout.addEventListener('change', () => {
     if (musica.paused) {
@@ -57,29 +60,29 @@ function alterarContexto(contexto) {
         case "foco":
             msg.innerHTML = `Otimize sua produtividade,<br>
             <strong class="app__title-strong">mergulhe no que importa.</strong>`
-                tempoDecorrido = 10;
-                tempoReset = 10;
-    
+            tempoDecorrido = 10;
+            tempoReset = 10;
+
             break;
         case "descanso-curto":
             msg.innerHTML = `Que tal dar uma respirada?<br>
                 <strong class="app__title-strong">Faça uma pausa curta!</strong>`
-                tempoDecorrido = 300;
-                tempoReset = 300;
-            
+            tempoDecorrido = 300;
+            tempoReset = 300;
+
             break;
         case "descanso-longo":
             msg.innerHTML = `Hora de voltar à superfície.<br>
                     <strong class="app__title-strong">Faça uma pausa longa.</strong>`
-                tempoDecorrido = 900;
-                tempoReset = 900;
+            tempoDecorrido = 900;
+            tempoReset = 900;
 
             break;
 
         default:
             break;
     }
-    
+
     zerar()
 }
 
@@ -87,7 +90,7 @@ let contagemR = function () {
     if (tempoDecorrido <= 0) {
         timerOverEffect.play();
         const focoAtivo = html.getAttribute('data-contexto') == 'foco';
-        if(focoAtivo){
+        if (focoAtivo) {
             const elemento = new CustomEvent('focoFinalizado');
             document.dispatchEvent(elemento);
         }
@@ -103,15 +106,17 @@ let contagemR = function () {
 player.addEventListener('click', iniciarOuPausar);
 
 function iniciarOuPausar() {
-    if (intervaloId) {
-        zerar()
-        pauseEffect.play()
-        return;
-    }
-    intervaloId = setInterval(contagemR, 1000)
-    playEffect.play();
-    player.textContent = 'Pausar'
-    playEPausebt.setAttribute('src', '/imagens/pause.png')
+    if (permisorPlay) {
+        if (intervaloId) {
+            zerar()
+            pauseEffect.play()
+            return;
+        }
+        intervaloId = setInterval(contagemR, 1000)
+        playEffect.play();
+        player.textContent = 'Pausar'
+        playEPausebt.setAttribute('src', '/imagens/pause.png')
+    } else { alert('NENHUMA TAREFA EM ANDAMENTO') }
 }
 
 function zerar() {

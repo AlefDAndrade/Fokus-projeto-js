@@ -1,3 +1,4 @@
+export { permisorPlay };
 
 const addTarefa = document.querySelector('.app__button--add-task');
 const formulario = document.querySelector('.app__form-add-task');
@@ -10,8 +11,9 @@ const limparComcluidas = document.getElementById('btn-remover-concluidas');
 const emAndamentoP = document.querySelector('.app__section-active-task-description');
 
 let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
-tarefaAtual = null;
-liTarefaAtual = null;
+let permisorPlay = null
+let tarefaAtual = null;
+let liTarefaAtual = null;
 
 function atulaizarTarefas() {
     localStorage.setItem('tarefas', JSON.stringify(tarefas))
@@ -65,6 +67,7 @@ function criarElementoTarefa(tarefa) {
                 })
             if (tarefaAtual == tarefa) {
                 emAndamentoP.textContent = ''
+                permisorPlay = null;
                 tarefaAtual = null;
                 liTarefaAtual = null;
                 return
@@ -72,6 +75,7 @@ function criarElementoTarefa(tarefa) {
             tarefaAtual = tarefa;
             liTarefaAtual = li;
             emAndamentoP.textContent = tarefa.descricao;
+            permisorPlay = true;
             li.classList.add('app__section-task-list-item-active')
         }
 
@@ -117,6 +121,7 @@ tarefas.forEach(tarefa => {
 limparAllTarefas.addEventListener('click', () => {
     ulTarefas.innerHTML = '';
     localStorage.clear();
+    tarefas = [];
 })
 
 limparComcluidas.addEventListener('click', () => {
@@ -124,7 +129,7 @@ limparComcluidas.addEventListener('click', () => {
     document.querySelectorAll(selector).forEach(elemento => {
         elemento.remove();
     })
-    tarefas = tarefas.filter(tarefa => !tarefa.complete)
+    tarefas = tarefas.filter(tarefa => !tarefa.complete);
     atulaizarTarefas()
 })
 
@@ -134,6 +139,7 @@ document.addEventListener('focoFinalizado', () => {
         liTarefaAtual.classList.add('app__section-task-list-item-complete');
         liTarefaAtual.querySelector('button').setAttribute('disabled', 'disabled');
         emAndamentoP.textContent = '';
+        permisorPlay = null;
         liTarefaAtual.onclick = (evento) => {
             evento.preventDefault()
         }
