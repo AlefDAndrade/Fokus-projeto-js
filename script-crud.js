@@ -63,9 +63,7 @@ function criarElementoTarefa(tarefa) {
         }
     } else {
         li.onclick = () => {
-            debugger
             if (!playAtivo) {
-                debugger
                 document.querySelectorAll('.app__section-task-list-item-active')
                 .forEach(elemento => {
                     elemento.classList.remove('app__section-task-list-item-active')
