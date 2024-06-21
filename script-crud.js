@@ -40,7 +40,7 @@ function criarElementoTarefa(tarefa) {
     botao.classList.add('app_button-edit');
     botao.onclick = () => {
         const novaDescricao = prompt("Qual o nome da nova tarefa?");
-        if (novaDescricao) {
+        if (novaDescricao && !'') {
             paragrafo.textContent = novaDescricao;
             tarefa.descricao = novaDescricao;
             atulaizarTarefas();
