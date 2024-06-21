@@ -1,5 +1,7 @@
 import { permisorPlay } from "./script-crud.js";
 
+export {playAtivo};
+
 const html = document.querySelector('html');
 const relogio = document.querySelector('#timer');
 const img = document.querySelector('.app__image');
@@ -18,7 +20,7 @@ const pauseEffect = new Audio('/sons/pause.mp3');
 const timerOverEffect = new Audio('/sons/beep.mp3');
 
 musica.loop = true;
-let playLiberado = null;
+let playAtivo = null;
 
 musicainout.addEventListener('change', () => {
     if (musica.paused) {
@@ -95,6 +97,7 @@ let contagemR = function () {
             document.dispatchEvent(elemento);
         }
         alert('timer over')
+        playAtivo = null;
         tempoDecorrido = tempoReset;
         zerar();
         return;
@@ -116,6 +119,7 @@ function iniciarOuPausar() {
         playEffect.play();
         player.textContent = 'Pausar'
         playEPausebt.setAttribute('src', '/imagens/pause.png')
+        playAtivo = true;
     } else { alert('NENHUMA TAREFA EM ANDAMENTO') }
 }
 
