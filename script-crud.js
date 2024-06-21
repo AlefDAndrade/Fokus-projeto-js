@@ -1,3 +1,5 @@
+import { playAtivo } from "./script.js";
+
 export { permisorPlay };
 
 const addTarefa = document.querySelector('.app__button--add-task');
@@ -61,22 +63,26 @@ function criarElementoTarefa(tarefa) {
         }
     } else {
         li.onclick = () => {
-            document.querySelectorAll('.app__section-task-list-item-active')
+            debugger
+            if (!playAtivo) {
+                debugger
+                document.querySelectorAll('.app__section-task-list-item-active')
                 .forEach(elemento => {
                     elemento.classList.remove('app__section-task-list-item-active')
                 })
-            if (tarefaAtual == tarefa) {
-                emAndamentoP.textContent = ''
-                permisorPlay = null;
-                tarefaAtual = null;
-                liTarefaAtual = null;
-                return
-            }
-            tarefaAtual = tarefa;
-            liTarefaAtual = li;
-            emAndamentoP.textContent = tarefa.descricao;
-            permisorPlay = true;
-            li.classList.add('app__section-task-list-item-active')
+                if (tarefaAtual == tarefa) {
+                    emAndamentoP.textContent = ''
+                    permisorPlay = null;
+                    tarefaAtual = null;
+                    liTarefaAtual = null;
+                    return
+                }
+                tarefaAtual = tarefa;
+                liTarefaAtual = li;
+                emAndamentoP.textContent = tarefa.descricao;
+                permisorPlay = true;
+                li.classList.add('app__section-task-list-item-active')
+            } else{alert('NÃO É POSIVEL MUDAR DE TAREFA NO MOMENTO')}
         }
 
     }
